@@ -12,14 +12,24 @@ import uvicorn
 # -------------------------------- Локальные модули
 from api import router as api_router
 from configs.config_api import settings
+from core.lifespan_mod.lifespan_setups import lifespan_db_dispose
+
 # ----------------------------------------------------------------------------------------------------------------------
-app = FastAPI()
+app = FastAPI(lifespan=lifespan_db_dispose,)
 app.include_router(api_router, prefix=settings.api.prefix)
 
 
 # ======================================================================================================================
 class CreateUsers(BaseModel):
     email: EmailStr
+
+
+
+
+
+
+
+
 
 
 @app.get("/")

@@ -4,7 +4,7 @@
 
 # ---------------------------------- Импорт стандартных библиотек
 # ---------------------------------- Импорт сторонних библиотек
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from pydantic import BaseModel, PostgresDsn
 
 
@@ -13,7 +13,7 @@ from pydantic import BaseModel, PostgresDsn
 
 # ----------------------------------------------------------------------------------------------------------------------
 class DatabaseConfig(BaseModel):
-    url_db: PostgresDsn
+    url: PostgresDsn
     echo: bool = False,
     echo_pool: bool = False,
     pool_size: int = 50,
@@ -40,11 +40,19 @@ class Settings(BaseSettings):
         однако, по мере роста класс будет расти и лучше сразу разделить сущности.
         В связи с этим структура класса будет иметь настоящий вид.
 
+        model_config: APP_CONFIG__DB__URL="postgresql+asyncpg://user:pasword@localhost:5432/mydatabase"
     """
 
     run: RunConfig = RunConfig()
     api: PrefixAPI = PrefixAPI()
-    db: DatabaseConfig # = DatabaseConfig()
+    db: DatabaseConfig  # = DatabaseConfig()
+    # Конфигурация подключения к базе данных:
+    model_config = SettingsConfigDict(
+        case_sensitive=False,  # Игнорировать регистр.
+        env_nested_delimiter='__',  # Указываем разделитель для вложенных объектов. APP_CONFIG__DB__URL
+        env_prefix='APP_CONFIG__',
+        env_file='.env',  # Где будет считывать.
+    )
 
 
 
