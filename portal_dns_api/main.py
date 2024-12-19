@@ -14,9 +14,14 @@ from api import router as api_router
 from configs.config_api import settings
 from core.lifespan_mod.lifespan_setups import lifespan_db_dispose
 
+from items_views import router as items_router
+from users.views import router as users_router
+
 # ----------------------------------------------------------------------------------------------------------------------
 app = FastAPI(lifespan=lifespan_db_dispose,)
 app.include_router(api_router, prefix=settings.api.prefix)
+app.include_router(items_router)
+app.include_router(users_router)
 
 
 # ======================================================================================================================
@@ -33,12 +38,12 @@ class CreateUsers(BaseModel):
 
 
 @app.get("/")
-async def test():
-    return {'0': 'Test good'}
+async def index():
+    return {'message': 'Test good!'}
 
 
-@app.get("/tests/")
-async def rest2():
+@app.get("/next/")
+async def next():
     return ['10', 'Test good 2']
 
 
