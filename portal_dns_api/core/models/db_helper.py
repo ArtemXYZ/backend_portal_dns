@@ -40,6 +40,7 @@ class DatabaseHelper:
         async with self.session() as session:
             yield session
 
+
 # Инициализация настроек для работы с базой данных и сессиями:
 set_db_helper = DatabaseHelper(
     url=str(settings.db.url),

@@ -43,9 +43,6 @@ class Settings(BaseSettings):
         model_config: APP_CONFIG__DB__URL="postgresql+asyncpg://user:pasword@localhost:5432/mydatabase"
     """
 
-    run: RunConfig = RunConfig()
-    api: PrefixAPI = PrefixAPI()
-    db: DatabaseConfig  # = DatabaseConfig()
     # Конфигурация подключения к базе данных:
     model_config = SettingsConfigDict(
         case_sensitive=False,  # Игнорировать регистр.
@@ -53,6 +50,10 @@ class Settings(BaseSettings):
         env_prefix='APP_CONFIG__',
         env_file='.env',  # Где будет считывать.
     )
+    run: RunConfig = RunConfig()
+    api: PrefixAPI = PrefixAPI()
+    db: DatabaseConfig  # = DatabaseConfig()
+
 
 
 
